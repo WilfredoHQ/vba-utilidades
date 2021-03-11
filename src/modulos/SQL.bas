@@ -5,23 +5,23 @@ Option Private Module
 Public Function ExecuteQuery(pSql As String) As Object
   On Error GoTo handleError
 
-  Dim cn As Object
-  Dim ddbb As String
+  Dim cxn As Object
+  Dim db As String
   Dim dbName As String
 
-'  dbName = ThisWorkbook.Path & "\DDBB.accdb" 'Access
-  dbName = ThisWorkbook.Path & "\DDBB.db" 'SQLite
+'  dbName = ThisWorkbook.Path & "\DB.accdb" 'Access
+  dbName = ThisWorkbook.Path & "\DB.db" 'SQLite
 
-  If Not Dir(dbName, vbArchive) = "" Then
-    Set cn = CreateObject("ADODB.Connection")
+  If Not Dir(dbName, vbArchive) = Empty Then
+    Set cxn = CreateObject("ADODB.Connection")
 
-'    ddbb = "Provider=Microsoft.ACE.OLEDB.12.0; Data source=" & dbName 'Access
-    ddbb = "Driver=SQLite3 ODBC Driver; Database=" & dbName 'SQLite
+'    db = "Provider=Microsoft.ACE.OLEDB.12.0; Data source=" & dbName 'Access
+    db = "Driver=SQLite3 ODBC Driver; Database=" & dbName 'SQLite
 
-    cn.Open ddbb
+    cxn.Open db
 
-    Set ExecuteQuery = cn.Execute(pSql)
-    Set cn = Nothing
+    Set ExecuteQuery = cxn.Execute(pSql)
+    Set cxn = Nothing
   Else
     MsgBox "No se ha encontrado la base de datos"
   End If

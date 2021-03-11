@@ -8,47 +8,29 @@ Public Sub CleanControls(pInTheForm As MSForms.UserForm, Optional pWithTheTag As
   Dim ctrl As MSForms.Control
 
   For Each ctrl In pInTheForm.Controls
-    If pWithTheTag <> Empty Then
-      If Not CBool(InStr(ctrl.Tag, pWithTheTag)) Then GoTo continueForLoop
-    End If
-
-    If TypeOf ctrl Is MSForms.TextBox Then
-      ctrl.Text = Empty
-    End If
-
-    If TypeOf ctrl Is MSForms.ComboBox Then
-      ctrl.Style = fmStyleDropDownCombo
-      ctrl.Text = Empty
-      ctrl.Style = fmStyleDropDownList
-    End If
-
-    If TypeOf ctrl Is MSForms.CheckBox Or TypeOf ctrl Is MSForms.OptionButton Then
-      ctrl.Value = False
-    End If
-
-    If TypeOf ctrl Is MSForms.ListBox Then
-      ctrl.Clear
-    End If
+    If pWithTheTag <> Empty And Not CBool(InStr(ctrl.Tag, pWithTheTag)) Then GoTo continueForLoop
+    If TypeOf ctrl Is MSForms.TextBox Then ctrl.Text = Empty
+    If TypeOf ctrl Is MSForms.ComboBox Then ctrl.Style = fmStyleDropDownCombo: ctrl.Text = Empty: ctrl.Style = fmStyleDropDownList
+    If TypeOf ctrl Is MSForms.CheckBox Or TypeOf ctrl Is MSForms.OptionButton Then ctrl.Value = False
+    If TypeOf ctrl Is MSForms.ListBox Then ctrl.Clear
 
 continueForLoop:
   Next ctrl
 End Sub
 
-Public Sub FillComboBox(pInTheSheet As Worksheet, pFromTheRow As Integer, pInTheColumn As Integer, pComboBox As MSForms.ComboBox)
+Public Sub FillComboBox(pFromTheSheet As Worksheet, pFromTheRow As Integer, pInTheColumn As Byte, pComboBox As MSForms.ComboBox)
   Dim lastRowContained As Long
-  Dim i As Long
+  Dim currentRow As Long
 
-  lastRowContained = GetEmptyCell(pInTheSheet, CLng(pFromTheRow), CLng(pInTheColumn)) - 1
+  lastRowContained = GetEmptyCell(pFromTheSheet, CLng(pFromTheRow), pInTheColumn) - 1
 
-  For i = pFromTheRow To lastRowContained
-      pComboBox.AddItem pInTheSheet.Cells(i, pInTheColumn)
-  Next i
+  For currentRow = pFromTheRow To lastRowContained
+      pComboBox.AddItem pFromTheSheet.Cells(currentRow, pInTheColumn)
+  Next currentRow
 End Sub
 
 Public Sub GeneratePDF(pTheSheet As Worksheet, pFileName As String)
-
   pTheSheet.ExportAsFixedFormat Type:=xlTypePDF, fileName:=ThisWorkbook.Path & "\assets\pdf\" & pFileName & ".pdf", Quality:=xlQualityStandard, IncludeDocProperties:=True, IgnorePrintAreas:=False, OpenAfterPublish:=False
-
 End Sub
 
 Public Sub FormDesign(pToForm As MSForms.UserForm)

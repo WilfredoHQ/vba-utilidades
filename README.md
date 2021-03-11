@@ -13,29 +13,23 @@ Puede descargar los archivos `.bas` e importarlo o copiar y pegar directamente l
 ### Indice de ejemplos 📋
 
 - [CRUD](./src/modulos/CRUD.bas)
-  - [GetRecords](./src/modulos/CRUD.bas#L5-L24) - [_ejemplo_](#GetRecords)
-  - [ManageRecord](./src/modulos/CRUD.bas#L26-L32) - [_ejemplo_](#ManageRecord)
-  - [DeleteRecord](./src/modulos/CRUD.bas#L34-L43) - [_ejemplo_](#DeleteRecord)
+  - [GetRecords](#GetRecords)
+  - [ManageRecord](#ManageRecord)
+  - [DeleteRecord](#DeleteRecord)
 - [Functions](./src/modulos/Functions.bas)
-  - [SHA256](./src/modulos/Functions.bas#L5-L27) - [_ejemplo_](#SHA256)
-  - [GetEmptyCell](./src/modulos/Functions.bas#L29-L35) - [_ejemplo_](#GetEmptyCell)
-  - [ValidateFields](./src/modulos/Functions.bas#L37-L87) - [_ejemplo_](#ValidateFields)
-  - [GetSerialNumber](./src/modulos/Functions.bas#L89-L110) - [_ejemplo_](#GetSerialNumber)
-  - [GenerateUuid](./src/modulos/Functions.bas#L112-L128) - [_ejemplo_](#GenerateUuid)
-  - [StrFormat](./src/modulos/Functions.bas#L130-L138) - [_ejemplo_](#StrFormat)
-- [Images](./src/modulos/Images.bas)
-  - [UploadImage](./src/modulos/Images.bas#L5-L13) - [_ejemplo_](#UploadImage)
-  - [SaveImage](./src/modulos/Images.bas#L15-L23) - [_ejemplo_](#SaveImage)
-  - [LoadImage](./src/modulos/Images.bas#L25-L37) - [_ejemplo_](#LoadImage)
-  - [DeleteImage](./src/modulos/Images.bas#L39-L46) - [_ejemplo_](#DeleteImage)
-  - [CleanImage](./src/modulos/Images.bas#L48-L52) - [_ejemplo_](#CleanImage)
+  - [Sha256](#Sha256)
+  - [GetEmptyCell](#GetEmptyCell)
+  - [ValidateFields](#ValidateFields)
+  - [GetSerialNumber](#GetSerialNumber)
+  - [GenerateUuid](#GenerateUuid)
+  - [StrFormat](#StrFormat)
 - [Procedures](./src/modulos/Procedures.bas)
-  - [CleanControls](./src/modulos/Procedures.bas#L5-L35) - [_ejemplo_](#CleanControls)
-  - [FillCombobox](./src/modulos/Procedures.bas#L37-L46) - [_ejemplo_](#FillCombobox)
-  - [GeneratePDF](./src/modulos/Procedures.bas#L48-L52) - [_ejemplo_](#GeneratePDF)
-  - [FormDesign](./src/modulos/Procedures.bas#L54-L86) - [_ejemplo_](#FormDesign)
+  - [CleanControls](#CleanControls)
+  - [FillCombobox](#FillCombobox)
+  - [GeneratePDF](#GeneratePDF)
+  - [FormDesign](#FormDesign)
 - [SQL](./src/modulos/SQL.bas)
-  - [ExecuteQuery](./src/modulos/SQL.bas#L5-L34) - [_ejemplo_](#ExecuteQuery)
+  - [ExecuteQuery](#ExecuteQuery)
 
 ### Uso 🔥
 
@@ -43,14 +37,14 @@ Puede descargar los archivos `.bas` e importarlo o copiar y pegar directamente l
 
 Función para buscar registros
 
-_Dependencias_: [GetEmptyCell](./src/modulos/Functions.bas#L29-L35)
+_Dependencias_: `GetEmptyCell`
 
 - Buscar un registro
 
 ```bas
 Dim foundRow As Long
 
-foundRow = CLng(GetRecords(Hoja1, 1, 1, "Valor a buscar", True))
+foundRow = CLng(GetRecords(Hoja1, 1, 1, "Valor a buscar"))
 
 MsgBox foundRow
 ```
@@ -61,7 +55,7 @@ MsgBox foundRow
 Dim aRowsFound() As String
 Dim i As Long
 
-aRowsFound = Split(GetRecords(Hoja1, 1, 1, "Valor a buscar", False), " ")
+aRowsFound = Split(GetRecords(Hoja1, 1, 1, "Valor a buscar", True), " ")
 
 For i = 0 To UBound(aRowsFound)
   MsgBox CLng(aRowsFound(i))
@@ -95,7 +89,7 @@ ManageRecord Hoja1, emptyCell, 1, aData()
 Dim aData(0) As String
 Dim userRow As Long
 
-userRow = CLng(GetRecords(Hoja1, 1, 1, "1", True))
+userRow = CLng(GetRecords(Hoja1, 1, 1, "1"))
 
 aData(0) = "David"
 
@@ -111,19 +105,19 @@ Procedimiento para eliminar un registro
 ```bas
 Dim rowToDeleted As Long
 
-rowToDeleted = CLng(GetRecords(Hoja1, 1, 1, "1", True))
+rowToDeleted = CLng(GetRecords(Hoja1, 1, 1, "1"))
 
 DeleteRecord Hoja1, rowToDeleted
 ```
 
 **⬆ [Regresar al Indice](#indice-de-ejemplos-)**
 
-#### SHA256
+#### Sha256
 
-Función SHA256 para encriptar carácteres
+Función Sha256 para encriptar carácteres
 
 ```bas
-MsgBox SHA256("texto a encriptar")
+MsgBox Sha256("texto a encriptar")
 ```
 
 **⬆ [Regresar al Indice](#indice-de-ejemplos-)**
@@ -147,7 +141,7 @@ MsgBox emptyCell
 Función para validar los campos de un formulario, para esto en el tag de cada control use cualquiera de las siguientes opciones **[ number | date | email ]**, si quiere validar que el campo también sea obligatorio añada **required**
 
 ```bas
-If ValidateFields(Me) = False Then Exit Sub
+If Not ValidateFields(Me) Then Exit Sub
 ```
 
 **⬆ [Regresar al Indice](#indice-de-ejemplos-)**
@@ -188,59 +182,6 @@ MsgBox StrFormat("El {0} es un {1}", aValues)
 
 **⬆ [Regresar al Indice](#indice-de-ejemplos-)**
 
-#### UploadImage
-
-Procedimiento para subir una imagen
-
-```bas
-UploadImage Me.Image1
-Me.Repaint
-```
-
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
-
-#### SaveImage
-
-Procedimiento para guardar una imagen
-
-```bas
-SaveImage Me.Image1, "ImageName"
-```
-
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
-
-#### LoadImage
-
-Procedimiento para cargar una imagen
-
-```bas
-LoadImage Me.Image1, "ImageName"
-Me.Repaint
-```
-
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
-
-#### DeleteImage
-
-Procedimiento para eliminar una imagen
-
-```bas
-DeleteImage "ImageName"
-```
-
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
-
-#### CleanImage
-
-Procedimiento para vaciar una imagen
-
-```bas
-CleanImage Me.Image1
-Me.Repaint
-```
-
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
-
 #### CleanControls
 
 Procedimiento para limpiar los siguientes controles TextBox, ComboBox, CheckBox, OptionButton y ListBox
@@ -263,7 +204,7 @@ CleanControls Me, "tag"
 
 Procedimiento para llenar un combobox
 
-_Dependencias_: [GetEmptyCell](./src/modulos/Functions.bas#L29-L35)
+_Dependencias_: `GetEmptyCell`
 
 ```bas
 FillComboBox Hoja1, 1, 1, Me.ComboBox1
