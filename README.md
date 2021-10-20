@@ -1,343 +1,422 @@
-# Utilidades vba
+<div id="top"></div>
+<br />
+<div align="center">
+  <a href="https://github.com/wilfredohq/vba-utilidades">
+    <img
+      src="https://github.com/WilfredoHQ/md-readme/raw/main/images/logo.png"
+      alt="Logo"
+      width="80"
+      height="80"
+    />
+  </a>
+  <h3 align="center">VBA Utilities</h3>
+  <p align="center">
+    A set of utilities to develop quickly in vba.
+    <br />
+    <a href="https://github.com/wilfredohq/vba-utilidades">
+      <strong>Explore the docs »</strong>
+    </a>
+    <br />
+    <br />
+    <a href="https://github.com/wilfredohq/vba-utilidades">
+      View Demo
+    </a>
+    ·
+    <a href="https://github.com/wilfredohq/vba-utilidades/issues">
+      Report Bug
+    </a>
+    ·
+    <a href="https://github.com/wilfredohq/vba-utilidades/issues">
+      Request Feature
+    </a>
+  </p>
+</div>
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a>
+      <ul>
+        <li>
+          <a href="./src/modulos/CRUD.bas">CRUD</a>
+          <ul>
+            <li><a href="#GetRecords">GetRecords</a></li>
+            <li><a href="#ManageRecord">ManageRecord</a></li>
+            <li><a href="#DeleteRecord">DeleteRecord</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="./src/modulos/Functions.bas">Functions</a>
+          <ul>
+            <li><a href="#Sha256">Sha256</a></li>
+            <li><a href="#GetEmptyCell">GetEmptyCell</a></li>
+            <li><a href="#ValidateFields">ValidateFields</a></li>
+            <li><a href="#GetSerialNumber">GetSerialNumber</a></li>
+            <li><a href="#GenerateUuid">GenerateUuid</a></li>
+            <li><a href="#StrFormat">StrFormat</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="./src/modulos/Procedures.bas">Procedures</a>
+          <ul>
+            <li><a href="#CleanControls">CleanControls</a></li>
+            <li><a href="#FillCombobox">FillCombobox</a></li>
+            <li><a href="#GeneratePDF">GeneratePDF</a></li>
+            <li><a href="#FormDesign">FormDesign</a></li>
+          </ul>
+        </li>
+        <li>
+          <a href="./src/modulos/SQL.bas">SQL</a>
+          <ul>
+            <li><a href="#ExecuteQuery">ExecuteQuery</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#contributing">Contributing</a></li>
+    <li><a href="#license">License</a></li>
+  </ol>
+</details>
 
-Un conjunto de utilidades para desarrollar rápidamente en vba.
+## About The Project
 
-## Comenzando 🚀
+In many projects that I have done with VBA I always used the same functions that I had developed, this became complex because I always copied the functions between files, even having a base file I had it locally. A lot of people liked the features and here it is.
 
-_Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas._
+### Built With
 
-### Instalación 🔧
+- [Excel](https://www.office.com/)
+- [VBA](https://docs.microsoft.com/en-us/office/vba/api/overview/excel)
 
-Puede descargar los archivos `.bas` e importarlo o copiar y pegar directamente lo que se necesite, para usar el módulo SQL con SQLite también deberás descargar e instalar [`sqliteodbc`](http://www.ch-werner.de/sqliteodbc/)
+<p align="right">(<a href="#top"> ↑ back to top </a>)</p>
 
-### Indice de ejemplos 📋
+## Getting Started
 
-- [CRUD](./src/modulos/CRUD.bas)
-  - [GetRecords](#GetRecords)
-  - [ManageRecord](#ManageRecord)
-  - [DeleteRecord](#DeleteRecord)
-- [Functions](./src/modulos/Functions.bas)
-  - [Sha256](#Sha256)
-  - [GetEmptyCell](#GetEmptyCell)
-  - [ValidateFields](#ValidateFields)
-  - [GetSerialNumber](#GetSerialNumber)
-  - [GenerateUuid](#GenerateUuid)
-  - [StrFormat](#StrFormat)
-- [Procedures](./src/modulos/Procedures.bas)
-  - [CleanControls](#CleanControls)
-  - [FillCombobox](#FillCombobox)
-  - [GeneratePDF](#GeneratePDF)
-  - [FormDesign](#FormDesign)
-- [SQL](./src/modulos/SQL.bas)
-  - [ExecuteQuery](#ExecuteQuery)
+To get a working local copy, follow these simple steps.
 
-### Uso 🔥
+### Prerequisites
 
-#### GetRecords
+Things you need to use the software and how to install them.
 
-Función para buscar registros
+- SQLite ODBC Driver (only for using SQL module with SQLite)
 
-_Dependencias_: `GetEmptyCell`
+  ```tex
+  http://www.ch-werner.de/sqliteodbc/
+  ```
 
-- Buscar un registro
+### Installation
 
-```bas
-Dim foundRow As Long
+You can download the `.bas` files and import it or directly copy and paste whatever is needed.
 
-foundRow = CLng(GetRecords(Hoja1, 1, 1, "Valor a buscar"))
+<p align="right">(<a href="#top"> ↑ back to top </a>)</p>
 
-MsgBox foundRow
-```
+## Usage
 
-- Buscar varios registros
+### GetRecords
 
-```bas
-Dim aRowsFound() As String
-Dim i As Long
+Function to find records.
 
-aRowsFound = Split(GetRecords(Hoja1, 1, 1, "Valor a buscar", True), " ")
+_Dependencies_: `GetEmptyCell`
 
-For i = 0 To UBound(aRowsFound)
-  MsgBox CLng(aRowsFound(i))
-Next i
-```
+- Search a record.
 
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
+  ```bas
+  Dim foundRow As Long
 
-#### ManageRecord
+  foundRow = CLng(GetRecords(Sheet1, 1, 1, "Value to look for"))
 
-Procedimiento para agregar o modificar un registro
+  MsgBox foundRow
+  ```
 
-- Agregando registros
+- Search multiple records.
 
-```bas
-Dim aData(2) As String
-Dim emptyCell As Long
+  ```bas
+  Dim aRowsFound() As String
+  Dim i As Long
 
-emptyCell = GetEmptyCell(Hoja1, 1, 1)
+  aRowsFound = Split(GetRecords(Sheet1, 1, 1, "Value to look for", True), " ")
 
-aData(0) = "1"
-aData(1) = "Jhon"
-aData(2) = "HQ"
+  For i = 0 To UBound(aRowsFound)
+    MsgBox CLng(aRowsFound(i))
+  Next i
+  ```
 
-ManageRecord Hoja1, emptyCell, 1, aData()
-```
+### ManageRecord
 
-- Modificando registros
+Procedure to add or update a record.
 
-```bas
-Dim aData(0) As String
-Dim userRow As Long
+- Adding records.
 
-userRow = CLng(GetRecords(Hoja1, 1, 1, "1"))
+  ```bas
+  Dim aData(2) As String
+  Dim emptyCell As Long
 
-aData(0) = "David"
+  emptyCell = GetEmptyCell(Sheet1, 1, 1)
 
-ManageRecord Hoja1, userRow, 2, aData()
-```
+  aData(0) = "1"
+  aData(1) = "Jhon"
+  aData(2) = "HQ"
 
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
+  ManageRecord Sheet1, emptyCell, 1, aData()
+  ```
 
-#### DeleteRecord
+- Updating records.
 
-Procedimiento para eliminar un registro
+  ```bas
+  Dim aData(0) As String
+  Dim userRow As Long
+
+  userRow = CLng(GetRecords(Sheet1, 1, 1, "1"))
+
+  aData(0) = "David"
+
+  ManageRecord Sheet1, userRow, 2, aData()
+  ```
+
+### DeleteRecord
+
+Procedure to delete a record.
 
 ```bas
 Dim rowToDeleted As Long
 
-rowToDeleted = CLng(GetRecords(Hoja1, 1, 1, "1"))
+rowToDeleted = CLng(GetRecords(Sheet1, 1, 1, "1"))
 
-DeleteRecord Hoja1, rowToDeleted
+DeleteRecord Sheet1, rowToDeleted
 ```
 
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
+### Sha256
 
-#### Sha256
-
-Función Sha256 para encriptar carácteres
+Sha256 function to encrypt characters.
 
 ```bas
-MsgBox Sha256("texto a encriptar")
+MsgBox Sha256("text to encrypt")
 ```
 
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
+### GetEmptyCell
 
-#### GetEmptyCell
-
-Función para obtener el final de una columna
+Function to obtain the end of a column.
 
 ```bas
 Dim emptyCell As Long
 
-emptyCell = GetEmptyCell(Hoja1, 1, 1)
+emptyCell = GetEmptyCell(Sheet1, 1, 1)
 
 MsgBox emptyCell
 ```
 
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
+### ValidateFields
 
-#### ValidateFields
-
-Función para validar los campos de un formulario, para esto en el tag de cada control use cualquiera de las siguientes opciones **[ number | date | email ]**, si quiere validar que el campo también sea obligatorio añada **required**
+Function to validate the fields of a form, for this in the tag of each control use any of the following options **[ number | date | email ]**, if you want to validate that the field is also mandatory add **required**.
 
 ```bas
 If Not ValidateFields(Me) Then Exit Sub
 ```
 
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
+### GetSerialNumber
 
-#### GetSerialNumber
-
-Función para obtener el serial de la unidad C
+Function to obtain the serial number of the device.
 
 ```bas
 MsgBox GetSerialNumber
 ```
 
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
+### GenerateUuid
 
-#### GenerateUuid
-
-Función para crear un GUID / UUID
+Function to create a GUID / UUID
 
 ```bas
 MsgBox GenerateUuid
 ```
 
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
+### StrFormat
 
-#### StrFormat
-
-Función para generar un string
+Function to generate a string.
 
 ```bas
 Dim aValues() As String
 
 ReDim aValues(1)
-aValues(0) = "gato"
-aValues(1) = "animal doméstico"
+aValues(0) = "cat"
+aValues(1) = "domestic animal"
 
-MsgBox StrFormat("El {0} es un {1}", aValues)
+MsgBox StrFormat("The {0} is a {1}.", aValues)
 ```
 
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
+### CleanControls
 
-#### CleanControls
+Procedure for cleaning controls: TextBox, ComboBox, CheckBox, OptionButton and ListBox.
 
-Procedimiento para limpiar los siguientes controles TextBox, ComboBox, CheckBox, OptionButton y ListBox
+- Clean all controls.
 
-- Limpiar todos los controles
+  ```bas
+  CleanControls Me
+  ```
+
+- Clean only the controls with the tag you see fit.
+
+  ```bas
+  CleanControls Me, "tag"
+  ```
+
+### FillCombobox
+
+Procedure to fill a ComboBox.
+
+_Dependencies_: `GetEmptyCell`
 
 ```bas
-CleanControls Me
+FillComboBox Sheet1, 1, 1, Me.ComboBox1
 ```
 
-- Limpiar solo los controles con el tag que creas conveniente
+### GeneratePDF
 
-```bas
-CleanControls Me, "tag"
-```
+Procedure to generate a PDF.
 
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
+- Generate PDF of a visible sheet.
 
-#### FillCombobox
+  ```bas
+  GeneratePDF Sheet1, "generated-pdf"
+  ```
 
-Procedimiento para llenar un combobox
+- Generate PDF of a hidden sheet.
 
-_Dependencias_: `GetEmptyCell`
+  ```bas
+  Sheet1.Visible = xlSheetVisible
+  GeneratePDF Sheet1, "generated-pdf"
+  Sheet1.Visible = xlSheetVeryHidden
+  ```
 
-```bas
-FillComboBox Hoja1, 1, 1, Me.ComboBox1
-```
+### FormDesign
 
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
-
-#### GeneratePDF
-
-Procedimiento para generar un pdf
-
-- Generar pdf de una hoja visible
-
-```bas
-GeneratePDF Hoja1, "pdf-generado"
-```
-
-- Generar pdf de una hoja oculta
-
-```bas
-Hoja1.Visible = xlSheetVisible
-GeneratePDF Hoja1, "pdf-generado"
-Hoja1.Visible = xlSheetVeryHidden
-```
-
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
-
-#### FormDesign
-
-Procedimiento para diseño de formularios
+Form design procedure.
 
 ```bas
 FormDesign Me
 ```
 
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
+### ExecuteQuery
 
-#### ExecuteQuery
+Function to execute a query in a DB.
 
-Función para ejecutar una consulta en una BBDD
+_The examples use a database in Spanish_
 
-- Insertar un registro
+- Create a record.
 
-```bas
-Dim oData As Object
-Dim sql As String
+  ```bas
+  Dim oData As Object
+  Dim sql As String
 
-'sql = "INSERT INTO Productos VALUES (16, 'ProductoNuevo', 3, '4.2')"
-sql = "INSERT INTO Productos (IdProducto, NomProducto, IdGrupo, Precio) VALUES (16, 'ProductoNuevo', 3, '4.2')"
-Set oData = ExecuteQuery(sql)
-Set oData = Nothing
-```
+  'sql = "INSERT INTO Productos VALUES (16, 'ProductoNuevo', 3, '4.2')"
+  sql = "INSERT INTO Productos (IdProducto, NomProducto, IdGrupo, Precio) VALUES (16, 'ProductoNuevo', 3, '4.2')"
+  Set oData = ExecuteQuery(sql)
+  Set oData = Nothing
+  ```
 
-- Actualizar un registro
+- Update a record.
 
-```bas
-Dim oData As Object
-Dim sql As String
+  ```bas
+  Dim oData As Object
+  Dim sql As String
 
-sql = "UPDATE Productos SET NomProducto='ProductoNuevoModificado' WHERE IdProducto=16"
-Set oData = ExecuteQuery(sql)
-Set oData = Nothing
-```
+  sql = "UPDATE Productos SET NomProducto='ProductoNuevoModificado' WHERE IdProducto=16"
+  Set oData = ExecuteQuery(sql)
+  Set oData = Nothing
+  ```
 
-- Eliminar un registro
+- Delete a record.
 
-```bas
-Dim oData As Object
-Dim sql As String
+  ```bas
+  Dim oData As Object
+  Dim sql As String
 
-sql = "DELETE FROM Productos WHERE IdProducto=16"
-Set oData = ExecuteQuery(sql)
-Set oData = Nothing
-```
+  sql = "DELETE FROM Productos WHERE IdProducto=16"
+  Set oData = ExecuteQuery(sql)
+  Set oData = Nothing
+  ```
 
-- Consultar un registro
+- Read a record.
 
-```bas
-Dim oData As Object
-Dim sql As String
+  ```bas
+  Dim oData As Object
+  Dim sql As String
 
-sql = "SELECT * FROM Productos WHERE IdProducto=16"
-Set oData = ExecuteQuery(sql)
+  sql = "SELECT * FROM Productos WHERE IdProducto=16"
+  Set oData = ExecuteQuery(sql)
 
-If Not oData.EOF Then
-  Cells(1, 1) = oData.Fields("IdProducto")
-  Cells(1, 2) = oData.Fields("NomProducto")
-  Cells(1, 3) = oData.Fields("IdGrupo")
-  Cells(1, 4) = oData.Fields("Precio")
-Else
-  Msgbox "No se encontraron registros"
-End if
+  If Not oData.EOF Then
+    Cells(1, 1) = oData.Fields("IdProducto")
+    Cells(1, 2) = oData.Fields("NomProducto")
+    Cells(1, 3) = oData.Fields("IdGrupo")
+    Cells(1, 4) = oData.Fields("Precio")
+  Else
+    Msgbox "No se encontraron registros"
+  End if
 
-oData.Close
-Set oData = Nothing
-```
+  oData.Close
+  Set oData = Nothing
+  ```
 
-- Consultar varios registros
+- Read multiple records.
 
-```bas
-Dim oData As Object
-Dim sql As String
-Dim firstRow As Long
+  ```bas
+  Dim oData As Object
+  Dim sql As String
+  Dim firstRow As Long
 
-firstRow = 1
+  firstRow = 1
 
-sql = "SELECT * FROM Productos WHERE NomProducto like '%z%'"
-Set oData = ExecuteQuery(sql)
+  sql = "SELECT * FROM Productos WHERE NomProducto like '%z%'"
+  Set oData = ExecuteQuery(sql)
 
-If Not oData.EOF Then
-  Do While Not oData.EOF
-    Cells(firstRow, 1) = oData.Fields("IdProducto")
-    Cells(firstRow, 2) = oData.Fields("NomProducto")
-    Cells(firstRow, 3) = oData.Fields("IdGrupo")
-    Cells(firstRow, 4) = oData.Fields("Precio")
+  If Not oData.EOF Then
+    Do While Not oData.EOF
+      Cells(firstRow, 1) = oData.Fields("IdProducto")
+      Cells(firstRow, 2) = oData.Fields("NomProducto")
+      Cells(firstRow, 3) = oData.Fields("IdGrupo")
+      Cells(firstRow, 4) = oData.Fields("Precio")
 
-    firstRow = firstRow + 1
-    oData.movenext
-  Loop
-Else
-  Msgbox "No se encontraron registros"
-End if
+      firstRow = firstRow + 1
+      oData.movenext
+    Loop
+  Else
+    Msgbox "No se encontraron registros"
+  End if
 
-oData.Close
-Set oData = Nothing
-```
+  oData.Close
+  Set oData = Nothing
+  ```
 
-**⬆ [Regresar al Indice](#indice-de-ejemplos-)**
+<p align="right">(<a href="#top"> ↑ back to top </a>)</p>
 
-## Despliegue 📦
+## Contributing
 
-1. In process...
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-## Licencia 📄
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
 
-Este proyecto está bajo la Licencia (GPL-2.0) - mira el archivo [LICENSE](LICENSE) para detalles.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/amazing-feature`)
+3. Commit your Changes (`git commit -m 'feat: add some amazing-feature'`)
+4. Push to the Branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+<p align="right">(<a href="#top"> ↑ back to top </a>)</p>
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for more information.
+
+<p align="right">(<a href="#top"> ↑ back to top </a>)</p>
